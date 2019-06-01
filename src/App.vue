@@ -20,6 +20,7 @@
 <style>
     body {
         margin: 0;
+        padding: 0;
     }
 
     #app {
@@ -28,11 +29,10 @@
         -moz-osx-font-smoothing: grayscale;
         text-align: center;
         color: #2c3e50;
-        margin-top: 0;
     }
 
     .mainContainer {
-        height: 100vh; border: 1px solid #eee
+        height: 100vh;
     }
 
     .el-header {
@@ -41,6 +41,7 @@
         line-height: 60px;
         text-align: right;
         font-size: 12px;
+        height: 61px !important;
     }
 
     .el-main {
@@ -59,7 +60,7 @@
     import Nav from "./components/Nav";
     import Sidebar from "./components/Sidebar";
     export default {
-        components: {Nav, Sidebar},
+        components: { Nav, Sidebar },
         data() {
             return {};
         }
