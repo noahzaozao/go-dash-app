@@ -12,7 +12,13 @@ const router = new Router({
         {
             path: '/',
             name: 'home',
-            component: Home
+            component: Home,
+            children: [
+                {
+                    path: 'dashboard',
+                    component: () => import('./views/Dashboard.vue')
+                }
+            ]
         },
         {
             path: '/about',
@@ -34,12 +40,12 @@ const router = new Router({
 
 router.beforeEach(function (to, from, next) {
     const auth = store.state.auth;
-    const nextRoute = ['login', 'register'];
-    if (nextRoute.indexOf(to.name) < 0) {
-        if (!auth.IsLogin) {
-            router.push({ name: 'login' });
-        }
-    }
+    // const nextRoute = ['login', 'register'];
+    // if (nextRoute.indexOf(to.name) < 0) {
+    //     if (!auth.IsLogin) {
+    //         router.push({ name: 'login' });
+    //     }
+    // }
     if (to.name === 'login') {
         if (auth.IsLogin) {
             router.push({ name: 'home' });
