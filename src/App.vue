@@ -1,19 +1,6 @@
 <template>
     <div id="app">
-        <el-container class="mainContainer">
-            <el-header>
-                <Nav></Nav>
-            </el-header>
-            <el-container>
-                <Sidebar></Sidebar>
-                <el-container>
-                    <el-main>
-                        <router-view/>
-                    </el-main>
-                    <el-footer>Footer</el-footer>
-                </el-container>
-            </el-container>
-        </el-container>
+        <router-view/>
     </div>
 </template>
 
@@ -57,8 +44,8 @@
 </style>
 
 <script>
-    import Nav from "./components/Nav";
-    import Sidebar from "./components/Sidebar";
+    import Nav from './components/Nav';
+    import Sidebar from './components/Sidebar';
     export default {
         components: { Nav, Sidebar },
         data() {
