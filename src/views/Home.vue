@@ -21,13 +21,27 @@
 </template>
 
 <style>
+    .mainContainer {
+        height: 100vh;
+    }
+
     .el-header {
         padding: 0;
+    }
+
+    .el-main {
+        padding: 0;
+    }
+
+    .el-footer {
+        background-color: #545c64;
+        line-height: 60px;
+        color: #fff;
     }
 </style>
 
 <script>
-    import Nav from '@/components/Nav.vue';
+    import Nav from '@/components/Navbar.vue';
     import Sidebar from '@/components/Sidebar.vue';
 
     export default {
@@ -35,6 +49,9 @@
         components: {
             Nav,
             Sidebar
+        },
+        data () {
+            return {};
         }
     };
 </script>
