@@ -36,7 +36,7 @@
         name: 'navbar',
         data () {
             return {
-                activeIndex: 1
+                activeIndex: 'dashboard'
             };
         },
         methods: {
