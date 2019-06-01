@@ -1,0 +1,35 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#app {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+}
+
+.mainContainer {
+    height: 100vh;
+}
+
+.el-header {
+    background-color: #545c64;
+    color: #333;
+    line-height: 60px;
+    text-align: right;
+    font-size: 12px;
+    height: 61px !important;
+}
+
+.el-main {
+    padding: 0;
+}
+
+.el-footer {
+    background-color: #545c64;
+    line-height: 60px;
+    color: #fff;
+}
