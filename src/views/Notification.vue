@@ -4,7 +4,7 @@
 
 <script>
     export default {
-        name: 'notificationCenter'
+        name: 'notification'
     };
 </script>
 

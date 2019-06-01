@@ -17,38 +17,12 @@
         text-align: center;
         color: #2c3e50;
     }
-
-    .mainContainer {
-        height: 100vh;
-    }
-
-    .el-header {
-        background-color: #545c64;
-        color: #333;
-        line-height: 60px;
-        text-align: right;
-        font-size: 12px;
-        height: 61px !important;
-    }
-
-    .el-main {
-        padding: 0;
-    }
-
-    .el-footer {
-        background-color: #545c64;
-        line-height: 60px;
-        color: #fff;
-    }
-
 </style>
 
 <script>
-    import Nav from './components/Nav';
-    import Sidebar from './components/Sidebar';
     export default {
-        components: { Nav, Sidebar },
-        data() {
+        components: {},
+        data () {
             return {};
         }
     };
