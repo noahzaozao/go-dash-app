@@ -1,7 +1,7 @@
 import qs from 'qs';
 import axios from 'axios';
-import { Toast, Indicator } from 'mint-ui';
-const config = require('../../config');
+import { Loading, Message } from 'element-ui'
+let loadingInstance = '';
 
 // 设置 canRequest 变量 防止多次请求
 window.canRequest = [];
@@ -15,15 +15,21 @@ axios.defaults.baseURL = '/api';
 // POST传参序列化(添加请求拦截器)
 axios.interceptors.request.use(
 	config => {
-		Indicator.open();
+		// 加载动画
+		loadingInstance = Loading.service({
+			lock: true,
+			text: 'Loading',
+			spinner: 'el-icon-loading',
+			background: 'rgba(0, 0, 0, 0.7)'
+		});
 		if (config.method === 'post' && config.data && config.headers['Content-Type'] === 'application/x-www-form-urlencoded;charset=UTF-8') {
 			config.data = qs.stringify(config.data);
 		}
 		return config;
 	},
 	err => {
-		Indicator.close();
-		Toast('请求错误');
+		loadingInstance.close()
+		Message.warning('请求错误');
 		return Promise.reject(err);
 	}
 );
@@ -32,20 +38,16 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
 	res => {
 		if (res.data.return_code === 0) {
-			Indicator.close();
-			// 设置全局变量 [手机号码验证状态]
-			window.mobile_validated = res.headers.mobile_validated || false;
-		} else if (res.data.return_code === -101) {
-			Indicator.close();
+			loadingInstance.close()
 		} else {
-			Indicator.close();
-			Toast(res.data.return_message);
+			loadingInstance.close()
+			Message.warning(res.data.return_message);
 		}
 		return res;
 	},
 	err => {
-		Indicator.close();
-		Toast('请求失败，请稍后再试');
+		loadingInstance.close()
+		Message.error('请求失败，请稍后再试');
 		return Promise.reject(err);
 	}
 );
@@ -77,53 +79,43 @@ const toType = (obj) => {
  * @param method 需要请求type
  * @param url 需要请求数据的接口地址
  * @param params 提交的参数
- * @param callback 成功回调
  */
-const apiAxios = (method, url, params, callback) => {
-	if (window.canRequest[callback] === undefined || window.canRequest[callback]) {
-		window.canRequest[callback] = false;
-	}
-	if (params) {
-		params = filterNull(params);
-	}
-	axios({
-		method: method,
-		url: url,
-		data: params,
-		withCredentials: false
-	}).then(response => {
-		const resData = response.data;
-		delete window.canRequest[callback];
-		if (resData && resData.hasOwnProperty('return_code')) {
-			if (resData.return_code === -101) {
-				// resData.data.url wechat url
-				if (process.env.NODE_ENV !== 'development') {
+const apiAxios = (method, url, params) => {
+	return new Promise((resolve, reject) => {
+		axios({
+			method: method,
+			url: url,
+			data: params ? filterNull(params) : params,
+			withCredentials: true
+		}).then(response => {
+			const resData = response.data;
+			if (resData && resData.hasOwnProperty('return_code')) {
+				if (resData.return_code === -101) {
 					window.location = resData.data.url;
-				} else if (process.env.NODE_ENV === 'development' && !config.dev.canRedirectWechat) {
-					callback(resData);
+					resolve(resData.data.url);
 				} else {
-					window.location = resData.data.url;
+					resolve(resData);
 				}
 			} else {
-				callback(resData);
+				console.error('温馨提示：数据格式错误');
+				reject(new Error('温馨提示：数据格式错误'));
 			}
-		} else {
-			console.error('温馨提示：数据格式错误');
-		}
-	}).catch(err => {
-		if (err) {
-			let res = err.response;
-			console.error('api error, HTTP CODE: ' + res.status);
-		}
+		}).catch(err => {
+			if (err.response) {
+				let res = err.response;
+				console.error('api error, HTTP CODE: ' + res.status);
+				reject(new Error('api error, HTTP CODE: ' + res.status));
+			}
+		});
 	});
 };
 
 // 返回在vue模板中的调用接口
 export default {
-	get: function (url, params, callback) {
-		return apiAxios('GET', url, params, callback);
+	get: function (url, params) {
+		return apiAxios('GET', url, params);
 	},
-	post: function (url, params, callback) {
-		return apiAxios('POST', url, params, callback);
+	post: function (url, params) {
+		return apiAxios('POST', url, params);
 	}
 };

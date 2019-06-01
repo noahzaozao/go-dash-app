@@ -1,6 +1,11 @@
 <template>
-    <el-menu :default-active="$route.path" mode="horizontal" background-color="#545c64" text-color="#fff"
-             active-text-color="#ffd04b" router>
+    <el-menu
+        :default-active="$route.path"
+        mode="horizontal"
+        background-color="#545c64"
+        text-color="#fff"
+        active-text-color="#ffd04b"
+        router>
         <el-menu-item index="1">处理中心</el-menu-item>
         <el-submenu index="2">
             <template slot="title">我的工作台</template>
