@@ -17,18 +17,22 @@ const router = new Router({
         {
             path: '/about',
             name: 'about',
-            component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+            component: () => import('./views/About.vue')
         },
         {
             path: '/login',
             name: 'login',
-            component: () => import(/* webpackChunkName: "about" */ './views/Login.vue')
+            component: () => import('./views/Login.vue')
+        },
+        {
+            path: '/register',
+            name: 'register',
+            component: () => import('./views/Register.vue')
         }
     ]
 });
 
 router.beforeEach(function (to, from, next) {
-    console.log(store.state);
     const auth = store.state.auth;
     const nextRoute = [ 'login', 'register'];
     if (nextRoute.indexOf(to.name) < 0) {
