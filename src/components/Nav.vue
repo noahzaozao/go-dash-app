@@ -17,7 +17,7 @@
                 <el-menu-item index="">Option 2</el-menu-item>
             </el-submenu>
         </el-submenu>
-        <el-menu-item index="">Notification Center</el-menu-item>
+        <el-menu-item index="notification">Notification Center</el-menu-item>
         <el-menu-item index="">Management</el-menu-item>
         <el-dropdown>
             <i class="el-icon-setting" style="margin-right: 15px; color: #fff"></i>

@@ -5,7 +5,7 @@
                 :default-openeds="['1']"
                 router>
             <el-submenu index="1">
-                <template slot="title"><i class="el-icon-message"></i>Microservices</template>
+                <template slot="title">Microservices</template>
                 <el-menu-item-group>
                     <template slot="title">ETCD</template>
                     <el-menu-item index="/">Home</el-menu-item>

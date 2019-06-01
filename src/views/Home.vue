@@ -20,6 +20,12 @@
     </el-container>
 </template>
 
+<style>
+    .el-header {
+        padding: 0;
+    }
+</style>
+
 <script>
     import Nav from '@/components/Nav.vue';
     import Sidebar from '@/components/Sidebar.vue';

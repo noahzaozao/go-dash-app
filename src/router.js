@@ -16,7 +16,13 @@ const router = new Router({
             children: [
                 {
                     path: 'dashboard',
+                    name: 'dashboard',
                     component: () => import('./views/Dashboard.vue')
+                },
+                {
+                    path: 'notification',
+                    name: 'notification',
+                    component: () => import('./views/NotificationCenter.vue')
                 }
             ]
         },
