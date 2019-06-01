@@ -17,8 +17,8 @@
 
 <script>
     export default {
-        name: "Register",
-        data() {
+        name: 'Register',
+        data () {
             return {
                 ruleForm: {
                     pass: '',
@@ -30,7 +30,7 @@
             };
         },
         methods: {
-            submitForm(formName) {
+            submitForm (formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         alert('submit!');
@@ -39,11 +39,11 @@
                     }
                 });
             },
-            resetForm(formName) {
+            resetForm (formName) {
                 this.$refs[formName].resetFields();
             }
         }
-    }
+    };
 </script>
 
 <style scoped>

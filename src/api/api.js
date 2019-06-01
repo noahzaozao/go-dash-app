@@ -38,7 +38,7 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
 	res => {
 		if (res.data.return_code === 0) {
-			loadingInstance.close()
+			loadingInstance.close();
 		} else {
 			loadingInstance.close();
 			Message.warning(res.data.return_message);

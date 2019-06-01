@@ -1,10 +1,11 @@
 <template>
     <el-menu
-        :default-active="$route.path"
+        :default-active="activeIndex"
         mode="horizontal"
         background-color="#545c64"
         text-color="#fff"
         active-text-color="#ffd04b"
+        @select="handleSelect"
         router>
         <el-menu-item index="dashboard">Dashboard</el-menu-item>
         <el-submenu index="2">
@@ -32,7 +33,17 @@
 
 <script>
     export default {
-        name: 'navbar'
+        name: 'navbar',
+        data () {
+            return {
+                activeIndex: 'dashboard'
+            };
+        },
+        methods: {
+            handleSelect () {
+                console.log('demo');
+            }
+        }
     };
 </script>
 
