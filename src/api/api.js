@@ -1,6 +1,6 @@
 import qs from 'qs';
 import axios from 'axios';
-import { Loading, Message } from 'element-ui'
+import { Loading, Message } from 'element-ui';
 let loadingInstance = '';
 
 // 设置 canRequest 变量 防止多次请求
@@ -28,7 +28,7 @@ axios.interceptors.request.use(
 		return config;
 	},
 	err => {
-		loadingInstance.close()
+		loadingInstance.close();
 		Message.warning('请求错误');
 		return Promise.reject(err);
 	}
@@ -40,13 +40,13 @@ axios.interceptors.response.use(
 		if (res.data.return_code === 0) {
 			loadingInstance.close()
 		} else {
-			loadingInstance.close()
+			loadingInstance.close();
 			Message.warning(res.data.return_message);
 		}
 		return res;
 	},
 	err => {
-		loadingInstance.close()
+		loadingInstance.close();
 		Message.error('请求失败，请稍后再试');
 		return Promise.reject(err);
 	}
