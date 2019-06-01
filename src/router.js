@@ -1,9 +1,9 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import Home from './views/Home.vue'
-import store from './store'
+import Vue from 'vue';
+import Router from 'vue-router';
+import Home from './views/Home.vue';
+import store from './store';
 
-Vue.use(Router)
+Vue.use(Router);
 
 const router = new Router({
     mode: 'history',
@@ -34,18 +34,18 @@ const router = new Router({
 
 router.beforeEach(function (to, from, next) {
     const auth = store.state.auth;
-    const nextRoute = [ 'login', 'register'];
+    const nextRoute = ['login', 'register'];
     if (nextRoute.indexOf(to.name) < 0) {
         if (!auth.IsLogin) {
-            router.push({name: 'login'})
+            router.push({ name: 'login' });
         }
     }
     if (to.name === 'login') {
         if (auth.IsLogin) {
-            router.push({name: 'home'});
+            router.push({ name: 'home' });
         }
     }
     next();
 });
 
-export default router
+export default router;

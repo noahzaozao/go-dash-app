@@ -20,13 +20,14 @@
 </template>
 
 <script>
-    // @ is an alias to /src
-    // import HelloWorld from '@/components/HelloWorld.vue'
+    import Nav from '@/components/Nav.vue';
+    import Sidebar from '@/components/Sidebar.vue';
 
     export default {
         name: 'home',
         components: {
-            // HelloWorld
+            Nav,
+            Sidebar
         }
     };
 </script>
