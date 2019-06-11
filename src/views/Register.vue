@@ -49,7 +49,7 @@
             };
         },
         methods: {
-            async submitForm (formName) {
+            submitForm (formName) {
                 // 检验表单
                 this.$refs[formName].validate((valid) => {
                     if (!valid) {
@@ -61,17 +61,16 @@
                         mobile: this[formName].username,
                         password: this[formName].password
                     };
-
-                    const r = await api.post('http://localhost:18080/api/user/register', param);
-                    console.log(r);
-                    if (r.return_code === api.OK) {
-                        localStorage.setItem('jwt_token', r.data);
-                        setTimeout(function () {
-                            window.location.href = '/';
-                        }, 1000);
-                    } else {
-                        console.log(r.message);
-                    }
+                    api.post('http://localhost:18080/api/user/register', param, res => {
+                        if (res.return_code === 0) {
+                            localStorage.setItem('jwt_token', r.data);
+                            setTimeout(function () {
+                                window.location.href = '/';
+                            }, 1000);
+                        } else {
+                            console.log(r.message);
+                        }
+                    });
                     app.canClick = true;
                 } catch (err) {
                     console.error(err);
