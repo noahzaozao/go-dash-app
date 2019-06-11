@@ -16,11 +16,11 @@
 </template>
 
 <script>
-    import api from "../api/api.js";
+    import api from '../api/api.js';
 
     export default {
-        name: "Login",
-        data() {
+        name: 'login',
+        data () {
             // 验证用户名
             const validateUserName = (rule, value, callback) => {
                 if (!value) {
@@ -37,7 +37,7 @@
                 // 登录表单
                 loginForm: {
                     username: '',
-                    password: '',
+                    password: ''
                 },
                 // 验证规则
                 rules: {
@@ -46,7 +46,7 @@
                     ],
                     password: [
                         { validator: validatePassword, trigger: 'blur' }
-                    ],
+                    ]
                 }
             };
         },
@@ -60,10 +60,17 @@
                 });
                 try {
                     // 发起请求
-                    const res = await api.post("/login", {
-                        username: this[formName].username,
-                        password: this[formName].password,
-                    })
+                    // const res = await api.post('/login', {
+                    //     username: this[formName].username,
+                    //     password: this[formName].password
+                    // });
+
+                    var param = {
+                        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NjAyMzkwMzEsImp0aSI6IjEiLCJpc3MiOiJ0eGluLnVzZXIuc3J2Iiwic3ViIjoibm9ybWFsIn0.1LOEPd7MPwKxUGvRpOsgQcqlfIC0JWujmACt1iGfxt4'
+                    };
+
+                    const res = await api.post('http://localhost:18080/api/auth/jwt/token', param);
+
                     console.log(res);
                 } catch (err) {
                     console.error(err);
@@ -73,7 +80,7 @@
                 this.$refs[formName].resetFields();
             }
         }
-    }
+    };
 </script>
 
 <style scoped>

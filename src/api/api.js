@@ -1,4 +1,3 @@
-import qs from 'qs';
 import axios from 'axios';
 import { Loading, Message } from 'element-ui';
 let loadingInstance = '';
@@ -6,7 +5,7 @@ let loadingInstance = '';
 // 设置 canRequest 变量 防止多次请求
 window.canRequest = [];
 // 配置请求头
-axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+axios.defaults.headers['Content-Type'] = 'application/json;charset=UTF-8';
 // 响应时间
 axios.defaults.timeout = 5 * 1000;
 // 配置接口地址
@@ -22,9 +21,10 @@ axios.interceptors.request.use(
 			spinner: 'el-icon-loading',
 			background: 'rgba(0, 0, 0, 0.7)'
 		});
-		if (config.method === 'post' && config.data && config.headers['Content-Type'] === 'application/x-www-form-urlencoded;charset=UTF-8') {
-			config.data = qs.stringify(config.data);
+		if (config.method === 'post' && config.data && config.headers['Content-Type'] === 'application/json;charset=UTF-8') {
+			config.data = JSON.stringify(config.data);
 		}
+		// config.headers['Authorization'] = '';
 		return config;
 	},
 	err => {
