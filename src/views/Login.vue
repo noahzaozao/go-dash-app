@@ -59,19 +59,22 @@
                     }
                 });
                 try {
-                    // 发起请求
-                    // const res = await api.post('/login', {
-                    //     username: this[formName].username,
-                    //     password: this[formName].password
-                    // });
-
                     var param = {
-                        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NjAyMzkwMzEsImp0aSI6IjEiLCJpc3MiOiJ0eGluLnVzZXIuc3J2Iiwic3ViIjoibm9ybWFsIn0.1LOEPd7MPwKxUGvRpOsgQcqlfIC0JWujmACt1iGfxt4'
+                        mobile: this[formName].username,
+                        password: this[formName].password
                     };
 
-                    const res = await api.post('http://localhost:18080/api/auth/jwt/token', param);
-
-                    console.log(res);
+                    const r = await api.post('http://localhost:18080/api/user/login', param);
+                    console.log(r);
+                    if (r.return_code === 0) {
+                        localStorage.setItem('jwt_token', r.data);
+                        setTimeout(function () {
+                            window.location.href = '/';
+                        }, 1000);
+                    } else if (r.return_code < 0) {
+                        console.log(r.message);
+                    }
+                    app.canClick = true;
                 } catch (err) {
                     console.error(err);
                 }

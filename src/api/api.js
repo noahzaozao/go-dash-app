@@ -24,7 +24,8 @@ axios.interceptors.request.use(
 		if (config.method === 'post' && config.data && config.headers['Content-Type'] === 'application/json;charset=UTF-8') {
 			config.data = JSON.stringify(config.data);
 		}
-		// config.headers['Authorization'] = '';
+		var authorization = localStorage.getItem('jwt_token');
+		config.headers['Authorization'] = authorization;
 		return config;
 	},
 	err => {
@@ -117,5 +118,6 @@ export default {
 	},
 	post: function (url, params) {
 		return apiAxios('POST', url, params);
-	}
+	},
+	OK: '1'
 };
