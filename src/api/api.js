@@ -81,43 +81,37 @@ const toType = (obj) => {
  * @param url 需要请求数据的接口地址
  * @param params 提交的参数
  */
-const apiAxios = (method, url, params) => {
-	return new Promise((resolve, reject) => {
-		axios({
-			method: method,
-			url: url,
-			data: params ? filterNull(params) : params,
-			withCredentials: true
-		}).then(response => {
-			const resData = response.data;
-			if (resData && resData.hasOwnProperty('return_code')) {
-				if (resData.return_code === -101) {
-					window.location = resData.data.url;
-					resolve(resData.data.url);
-				} else {
-					resolve(resData);
-				}
-			} else {
-				console.error('温馨提示：数据格式错误');
-				reject(new Error('温馨提示：数据格式错误'));
-			}
-		}).catch(err => {
-			if (err.response) {
-				let res = err.response;
-				console.error('api error, HTTP CODE: ' + res.status);
-				reject(new Error('api error, HTTP CODE: ' + res.status));
-			}
-		});
+const apiAxios = (method, url, params, callback) => {
+	if (params) {
+		params = filterNull(params);
+	}
+	axios({
+		method: method,
+		url: url,
+		data: params,
+		withCredentials: false
+	}).then(response => {
+		const resData = response.data;
+		if (resData && resData.hasOwnProperty('return_code')) {
+			callback(resData);
+		} else {
+			console.error('温馨提示：数据格式错误');
+		}
+	}).catch(err => {
+		if (err) {
+			let res = err.response;
+			console.error('api error, HTTP CODE: ' + res.status);
+		}
 	});
 };
 
 // 返回在vue模板中的调用接口
 export default {
-	get: function (url, params) {
-		return apiAxios('GET', url, params);
+	get: function (url, params, callback) {
+		return apiAxios('GET', url, params, callback);
 	},
-	post: function (url, params) {
-		return apiAxios('POST', url, params);
+	post: function (url, params, callback) {
+		return apiAxios('POST', url, params, callback);
 	},
 	OK: '1'
 };
