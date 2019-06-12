@@ -51,7 +51,7 @@ router.beforeEach(function (to, from, next) {
             router.push({ name: 'login' });
         }
     }
-    if (to.name === 'login') {
+    if (to.name === 'login' || to.name === 'register') {
         if (jwtToken) {
             router.push({ name: 'home' });
         }

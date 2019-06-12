@@ -51,7 +51,7 @@
             };
         },
         methods: {
-            async submitForm (formName) {
+            submitForm (formName) {
                 // 检验表单
                 this.$refs[formName].validate((valid) => {
                     if (!valid) {
@@ -73,7 +73,6 @@
                     } else if (r.return_code < 0) {
                         console.log(r.message);
                     }
-                    this.canClick = true;
                 });
             },
             resetForm (formName) {

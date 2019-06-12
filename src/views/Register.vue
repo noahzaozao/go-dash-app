@@ -71,7 +71,6 @@
                             console.log(r.message);
                         }
                     });
-                    this.canClick = true;
                 } catch (err) {
                     console.error(err);
                 }
