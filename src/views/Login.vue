@@ -63,17 +63,17 @@
                     password: this[formName].password
                 };
 
-                api.post('http://localhost:18080/api/user/login', param, function(r) {
+                api.post('http://localhost:18080/api/user/login', param, function (r) {
                     console.log(r);
                     if (r.return_code === api.OK) {
                         localStorage.setItem('jwt_token', r.data.token);
                         setTimeout(function () {
-                            // window.location.href = '/';
+                            window.location.href = '/';
                         }, 1000);
                     } else if (r.return_code < 0) {
                         console.log(r.message);
                     }
-                    app.canClick = true;
+                    this.canClick = true;
                 });
             },
             resetForm (formName) {

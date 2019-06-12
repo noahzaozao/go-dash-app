@@ -61,9 +61,9 @@
                         mobile: this[formName].username,
                         password: this[formName].password
                     };
-                    api.post('http://localhost:18080/api/user/register', param, res => {
-                        if (res.return_code === 0) {
-                            localStorage.setItem('jwt_token', r.data);
+                    api.post('http://localhost:18080/api/user/register', param, r => {
+                        if (r.return_code === api.OK) {
+                            localStorage.setItem('jwt_token', r.data.token);
                             setTimeout(function () {
                                 window.location.href = '/';
                             }, 1000);
@@ -71,7 +71,7 @@
                             console.log(r.message);
                         }
                     });
-                    app.canClick = true;
+                    this.canClick = true;
                 } catch (err) {
                     console.error(err);
                 }

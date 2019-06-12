@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
-import store from './store';
 
 Vue.use(Router);
 
@@ -45,15 +44,15 @@ const router = new Router({
 });
 
 router.beforeEach(function (to, from, next) {
-    const auth = store.state.auth;
-    // const nextRoute = ['login', 'register'];
-    // if (nextRoute.indexOf(to.name) < 0) {
-    //     if (!auth.IsLogin) {
-    //         router.push({ name: 'login' });
-    //     }
-    // }
+    const jwtToken = localStorage.getItem('jwt_token');
+    const nextRoute = ['login', 'register'];
+    if (nextRoute.indexOf(to.name) < 0) {
+        if (!jwtToken) {
+            router.push({ name: 'login' });
+        }
+    }
     if (to.name === 'login') {
-        if (auth.IsLogin) {
+        if (jwtToken) {
             router.push({ name: 'home' });
         }
     }
