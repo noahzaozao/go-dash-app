@@ -58,26 +58,23 @@
                         return false;
                     }
                 });
-                try {
-                    var param = {
-                        mobile: this[formName].username,
-                        password: this[formName].password
-                    };
+                var param = {
+                    mobile: this[formName].username,
+                    password: this[formName].password
+                };
 
-                    const r = await api.post('http://localhost:18080/api/user/login', param);
+                api.post('http://localhost:18080/api/user/login', param, function(r) {
                     console.log(r);
-                    if (r.return_code === 0) {
-                        localStorage.setItem('jwt_token', r.data);
+                    if (r.return_code === api.OK) {
+                        localStorage.setItem('jwt_token', r.data.token);
                         setTimeout(function () {
-                            window.location.href = '/';
+                            // window.location.href = '/';
                         }, 1000);
                     } else if (r.return_code < 0) {
                         console.log(r.message);
                     }
                     app.canClick = true;
-                } catch (err) {
-                    console.error(err);
-                }
+                });
             },
             resetForm (formName) {
                 this.$refs[formName].resetFields();

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { Loading, Message } from 'element-ui';
 let loadingInstance = '';
+let OK = '1';
 
 // 设置 canRequest 变量 防止多次请求
 window.canRequest = [];
@@ -38,7 +39,7 @@ axios.interceptors.request.use(
 // 返回状态判断(添加响应拦截器)
 axios.interceptors.response.use(
 	res => {
-		if (res.data.return_code === 0) {
+		if (res.data.return_code === OK) {
 			loadingInstance.close();
 		} else {
 			loadingInstance.close();
@@ -80,6 +81,7 @@ const toType = (obj) => {
  * @param method 需要请求type
  * @param url 需要请求数据的接口地址
  * @param params 提交的参数
+ * @param callback 回调方法
  */
 const apiAxios = (method, url, params, callback) => {
 	if (params) {
@@ -99,8 +101,8 @@ const apiAxios = (method, url, params, callback) => {
 		}
 	}).catch(err => {
 		if (err) {
-			let res = err.response;
-			console.error('api error, HTTP CODE: ' + res.status);
+			// let res = err.response;
+			console.error('api error, HTTP CODE: ' + err);
 		}
 	});
 };
@@ -113,5 +115,5 @@ export default {
 	post: function (url, params, callback) {
 		return apiAxios('POST', url, params, callback);
 	},
-	OK: '1'
+	OK: OK
 };
