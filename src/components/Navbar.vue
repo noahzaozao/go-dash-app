@@ -41,6 +41,9 @@
                 activeIndex: 'dashboard'
             };
         },
+        mounted() {
+            this.onInitData();
+        },
         methods: {
             handleCommand (command) {
                 this[command]();
@@ -54,6 +57,20 @@
                         setTimeout(function () {
                             window.location.href = '/login';
                         }, 1000);
+                    } else if (r.return_code < 0) {
+                        console.log(r.message);
+                    }
+                });
+            },
+            onInitData() {
+                console.log('onInitData');
+                api.post('http://localhost:18080/api/user/info', {
+                    token: '',
+                    uuid: ''
+                }, function (r) {
+                    console.log(r);
+                    if (r.return_code === api.OK) {
+
                     } else if (r.return_code < 0) {
                         console.log(r.message);
                     }

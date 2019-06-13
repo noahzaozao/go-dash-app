@@ -1,7 +1,9 @@
 import axios from 'axios';
-import { Loading, Message } from 'element-ui';
+import {Loading, Message} from 'element-ui';
+
 let loadingInstance = '';
 let OK = '1';
+let NOT_LOGIN = '-100';
 
 // 设置 canRequest 变量 防止多次请求
 window.canRequest = [];
@@ -25,8 +27,7 @@ axios.interceptors.request.use(
 		if (config.method === 'post' && config.data && config.headers['Content-Type'] === 'application/json;charset=UTF-8') {
 			config.data = JSON.stringify(config.data);
 		}
-		var authorization = localStorage.getItem('jwt_token');
-		config.headers['Authorization'] = authorization;
+		config.headers['Authorization'] = localStorage.getItem('jwt_token');
 		return config;
 	},
 	err => {
@@ -41,6 +42,12 @@ axios.interceptors.response.use(
 	res => {
 		if (res.data.return_code === OK) {
 			loadingInstance.close();
+		} else if (res.data.return_code === NOT_LOGIN) {
+			loadingInstance.close();
+			localStorage.removeItem('jwt_token');
+			setTimeout(function () {
+				window.location.href = '/login';
+			}, 1000);
 		} else {
 			loadingInstance.close();
 			Message.warning(res.data.return_message);
