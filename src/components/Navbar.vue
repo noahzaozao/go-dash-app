@@ -27,7 +27,7 @@
                 <el-dropdown-item command="onLogout">Logout</el-dropdown-item>
             </el-dropdown-menu>
         </el-dropdown>
-        <span style="font-size: 12px; color: #fff; margin-right: 15px;">Username</span>
+        <span style="font-size: 12px; color: #fff; margin-right: 15px;">{{username}}</span>
     </el-menu>
 </template>
 
@@ -38,10 +38,11 @@
         name: 'navbar',
         data () {
             return {
-                activeIndex: 'dashboard'
+                activeIndex: 'dashboard',
+                username: ''
             };
         },
-        mounted() {
+        mounted () {
             this.onInitData();
         },
         methods: {
@@ -62,7 +63,8 @@
                     }
                 });
             },
-            onInitData() {
+            onInitData () {
+                let _this = this;
                 console.log('onInitData');
                 api.post('http://localhost:18080/api/user/info', {
                     token: '',
@@ -70,7 +72,7 @@
                 }, function (r) {
                     console.log(r);
                     if (r.return_code === api.OK) {
-
+                        _this.username = r.data.username;
                     } else if (r.return_code < 0) {
                         console.log(r.message);
                     }
