@@ -51,7 +51,7 @@
             },
             onLogout () {
                 console.log('onLogout');
-                api.post('http://localhost:18080/api/user/logout', {}, function (r) {
+                api.post(api.API_HOST + '/api/user/logout', {}, function (r) {
                     console.log(r);
                     if (r.return_code === api.OK) {
                         localStorage.removeItem('jwt_token');
@@ -66,13 +66,10 @@
             onInitData () {
                 let _this = this;
                 console.log('onInitData');
-                api.post('http://localhost:18080/api/user/info', {
-                    token: '',
-                    uuid: ''
-                }, function (r) {
+                api.post(api.API_HOST + '/api/user/info', {}, function (r) {
                     console.log(r);
                     if (r.return_code === api.OK) {
-                        _this.username = r.data.username;
+                        _this.username = r.data.user.username;
                     } else if (r.return_code < 0) {
                         console.log(r.message);
                     }

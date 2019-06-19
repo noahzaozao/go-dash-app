@@ -66,7 +66,7 @@
                 api.post(api.API_HOST + '/api/user/login', param, function (r) {
                     console.log(r);
                     if (r.return_code === api.OK) {
-                        localStorage.setItem('jwt_token', r.data.token);
+                        localStorage.setItem('jwt_token', r.data.token.token);
                         setTimeout(function () {
                             window.location.href = '/';
                         }, 1000);
