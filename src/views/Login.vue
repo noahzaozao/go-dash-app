@@ -63,7 +63,7 @@
                     password: this[formName].password
                 };
 
-                api.post('http://localhost:18080/api/user/login', param, function (r) {
+                api.post(api.API_HOST + '/api/user/login', param, function (r) {
                     console.log(r);
                     if (r.return_code === api.OK) {
                         localStorage.setItem('jwt_token', r.data.token);

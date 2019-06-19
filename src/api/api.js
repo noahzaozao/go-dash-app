@@ -1,9 +1,11 @@
 import axios from 'axios';
-import {Loading, Message} from 'element-ui';
+import { Loading, Message } from 'element-ui';
 
 let loadingInstance = '';
 let OK = '1';
 let NOT_LOGIN = '-100';
+// 后端服务器地址
+let API_HOST = 'http://user-srv.7mud.com';
 
 // 设置 canRequest 变量 防止多次请求
 window.canRequest = [];
@@ -122,5 +124,7 @@ export default {
 	post: function (url, params, callback) {
 		return apiAxios('POST', url, params, callback);
 	},
-	OK: OK
+	OK: OK,
+	NOT_LOGIN: NOT_LOGIN,
+	API_HOST: API_HOST
 };
