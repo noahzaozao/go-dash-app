@@ -4,18 +4,18 @@ import RETURN_CODE from '../config/returnCode';
 
 class BaseModule {
   constructor () {
-    this.axios = axios;
+    this.$http = axios.create({
+      baseURL: 'http://api.7mud.com/api'
+    });
 
     // 配置请求头
-    this.axios.defaults.headers['Content-Type'] = 'application/json;charset=UTF-8';
+    this.$http.defaults.headers['Content-Type'] = 'application/json;charset=UTF-8';
     // 响应时间
-    this.axios.defaults.timeout = 5 * 1000;
-    // 配置接口地址
-    this.axios.defaults.baseURL = 'http://api.7mud.com/api';
+    this.$http.defaults.timeout = 5 * 1000;
 
     let loadingInstance = '';
     // POST传参序列化(添加请求拦截器)
-    this.axios.interceptors.request.use(
+    this.$http.interceptors.request.use(
       config => {
         // 加载动画
         loadingInstance = Loading.service({
@@ -35,21 +35,26 @@ class BaseModule {
     );
 
     // 返回状态判断(添加响应拦截器)
-    this.axios.interceptors.response.use(
+    this.$http.interceptors.response.use(
       res => {
-        if (res.data.return_code === RETURN_CODE.OK) {
-          loadingInstance.close();
-        } else if (res.data.return_code === RETURN_CODE.NOT_LOGIN) {
-          loadingInstance.close();
-          localStorage.removeItem('jwt_token');
-          setTimeout(function () {
-            window.location.href = '/login';
-          }, 1000);
-        } else {
-          loadingInstance.close();
-          Message.warning(res.data.return_message);
+        // 判断return_code
+        switch (res.data.return_code) {
+          case RETURN_CODE.OK:
+            loadingInstance.close();
+            return res.data;
+          case RETURN_CODE.NOT_LOGIN:
+            loadingInstance.close();
+            Message.warning(res.data.return_message);
+            localStorage.removeItem('jwt_token');
+            setTimeout(function () {
+              window.location.href = '/login';
+            }, 1000);
+            return res;
+          default:
+            loadingInstance.close();
+            Message.warning(res.data.return_message);
+            return res;
         }
-        return res;
       },
       err => {
         loadingInstance.close();
@@ -57,6 +62,10 @@ class BaseModule {
         return Promise.reject(err);
       }
     );
+  }
+
+  post (url, data = undefined, config = {}) {
+    return this.$http.post(url, data, { ...config });
   }
 }
 

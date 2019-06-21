@@ -59,24 +59,24 @@
             return false;
           }
         });
+        const param = {
+          mobile: this[formName].username,
+          password: this[formName].password
+        };
         try {
-          var param = {
-            mobile: this[formName].username,
-            password: this[formName].password
-          };
           const res = await UserModule.register({...param});
-          if (res) {
-            if (res.return_code === this.$RETURN_CODE.OK) {
-              localStorage.setItem('jwt_token', res.data.token.token);
-              setTimeout(function () {
-                window.location.href = '/';
-              }, 1000);
-            } else {
-              console.log(res.message);
-            }
+          if (res && res.return_code === this.$RETURN_CODE.OK) {
+            localStorage.setItem('jwt_token', res.data.token.token);
+            setTimeout(() => {
+              window.location.href = '/';
+            }, 1000);
           }
         } catch (err) {
-          console.error(err);
+          this.$notify({
+            title: '错误',
+            message: err,
+            type: 'warning'
+          });
         }
       },
       resetForm (formName) {

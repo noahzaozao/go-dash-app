@@ -50,24 +50,35 @@ import UserModule from '../service/UserModule';
       },
       async onInitData () {
         console.log('onInitData');
-        const res = await UserModule.getUserInfo();
-        if (res) {
-          if (res.return_code === this.$RETURN_CODE.OK) {
+        try {
+          const res = await UserModule.getUserInfo();
+          if (res && res.return_code === this.$RETURN_CODE.OK) {
             this.username = res.data.user.username;
           }
+        } catch (err) {
+          this.$notify({
+            title: '错误',
+            message: err,
+            type: 'warning'
+          });
         }
       },
       async onLogout () {
         console.log('onLogout');
-        const res = await UserModule.logout();
-        if (res) {
-          console.log(res);
-          if (res.return_code === this.$RETURN_CODE.OK) {
+        try {
+          const res = await UserModule.logout();
+          if (res && res.return_code === this.$RETURN_CODE.OK) {
             localStorage.removeItem('jwt_token');
             setTimeout(function () {
               window.location.href = '/login';
             }, 1000);
           }
+        } catch (err) {
+          this.$notify({
+            title: '错误',
+            message: err,
+            type: 'warning'
+          });
         }
       },
       handleSelect () {

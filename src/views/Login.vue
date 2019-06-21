@@ -68,16 +68,20 @@
           mobile: this[formName].username,
           password: this[formName].password
         };
-        const res = await UserModule.login({...param});
-        if (res) {
-          if (res.return_code === this.$RETURN_CODE.OK) {
+        try {
+          const res = await UserModule.login({...param});
+          if (res && res.return_code === this.$RETURN_CODE.OK) {
             localStorage.setItem('jwt_token', res.data.token.token);
             setTimeout(function () {
               window.location.href = '/';
             }, 1000);
-          } else if (res.return_code < 0) {
-            console.log(res.message);
           }
+        } catch (err) {
+          this.$notify({
+            title: '错误',
+            message: err,
+            type: 'warning'
+          });
         }
       },
       resetForm (formName) {

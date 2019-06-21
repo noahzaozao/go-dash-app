@@ -3,31 +3,31 @@ import BaseModule from './BaseModule';
 class UserModule extends BaseModule {
   constructor () {
     super();
-    this.$http = this.axios.create({
+    this.config = {
       baseURL: 'http://user-srv.7mud.com/api'
-    });
+    };
   }
 
   login ({ mobile = undefined, password = undefined }) {
-    return this.$http.post('/user/login', {
+    return this.post('/user/login', {
       mobile: mobile,
       password: password
-    });
+    }, this.config);
   }
 
   logout () {
-    return this.$http.post('/user/logout');
+    return this.post('/user/logout', this.config);
   }
 
   register ({ mobile = undefined, password = undefined }) {
-    return this.$http.post('/user/register', {
+    return this.post('/user/register', {
       mobile: mobile,
       password: password
-    });
+    }, this.config);
   }
 
   getUserInfo () {
-    return this.$http.post('/user/info');
+    return this.$http.post('/user/info', this.config);
   }
 }
 
